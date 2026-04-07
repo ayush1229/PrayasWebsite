@@ -1,0 +1,27 @@
+const mongoose = require("mongoose");
+
+const newsletterSchema = new mongoose.Schema(
+  {
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      lowercase: true
+    },
+
+    isActive: {
+      type: Boolean,
+      default: true
+    },
+
+    subscribedAt: {
+      type: Date,
+      default: Date.now
+    },
+
+    unsubscribedAt: Date
+  },
+  { timestamps: { createdAt: true, updatedAt: false } }
+);
+
+module.exports = mongoose.model("Newsletter", newsletterSchema);

@@ -1,6 +1,8 @@
-const donations = require("./donations.model");
+const Donation = require("./donations.model");
 
-const getDonations = () => donations;
+const getDonations = async () => {
+  return await Donation.find().lean();
+};
 
 module.exports = {
   getDonations,

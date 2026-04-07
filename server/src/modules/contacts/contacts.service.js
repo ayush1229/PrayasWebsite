@@ -1,6 +1,8 @@
-const contacts = require("./contacts.model");
+const ContactInquiry = require("./contacts.model");
 
-const getContacts = () => contacts;
+const getContacts = async () => {
+  return await ContactInquiry.find().lean();
+};
 
 module.exports = {
   getContacts,

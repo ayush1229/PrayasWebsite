@@ -1,6 +1,8 @@
-const achievements = require("./achievements.model");
+const Achievement = require("./achievements.model");
 
-const getAchievements = () => achievements;
+const getAchievements = async () => {
+  return await Achievement.find().lean();
+};
 
 module.exports = {
   getAchievements,
