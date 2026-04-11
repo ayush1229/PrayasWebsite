@@ -15,7 +15,7 @@ const createDonation = async (data) => {
 
 const updateDonation = async (id, data) => {
   return await Donation.findByIdAndUpdate(id, data, {
-    new: true,
+    returnDocument: "after",
     runValidators: true,
   }).lean();
 };

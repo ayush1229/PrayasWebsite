@@ -15,7 +15,7 @@ const createPage = async (data) => {
 
 const updatePage = async (slug, data) => {
   return await Page.findOneAndUpdate({ slug }, data, {
-    new: true,
+    returnDocument: "after",
     runValidators: true,
   }).lean();
 };
@@ -24,4 +24,10 @@ const deletePage = async (slug) => {
   return await Page.findOneAndDelete({ slug }).lean();
 };
 
-module.exports = { getPages, getPageBySlug, createPage, updatePage, deletePage };
+module.exports = {
+  getPages,
+  getPageBySlug,
+  createPage,
+  updatePage,
+  deletePage,
+};

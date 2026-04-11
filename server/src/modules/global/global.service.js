@@ -8,7 +8,7 @@ const updateGlobalData = async (data) => {
   return await SiteConfig.findOneAndUpdate(
     { type: "site_config" },
     { $set: data },
-    { new: true, upsert: true, runValidators: true },
+    { returnDocument: "after", upsert: true, runValidators: true },
   ).lean();
 };
 

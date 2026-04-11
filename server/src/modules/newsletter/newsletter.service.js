@@ -9,8 +9,13 @@ const getSubscribers = async () => {
 const subscribe = async (email) => {
   return await Newsletter.findOneAndUpdate(
     { email },
-    { email, isActive: true, subscribedAt: new Date(), unsubscribedAt: undefined },
-    { new: true, upsert: true, runValidators: true }
+    {
+      email,
+      isActive: true,
+      subscribedAt: new Date(),
+      unsubscribedAt: undefined,
+    },
+    { returnDocument: "after", upsert: true, runValidators: true },
   ).lean();
 };
 
@@ -18,7 +23,7 @@ const unsubscribe = async (email) => {
   return await Newsletter.findOneAndUpdate(
     { email },
     { isActive: false, unsubscribedAt: new Date() },
-    { new: true }
+    { returnDocument: "after" },
   ).lean();
 };
 

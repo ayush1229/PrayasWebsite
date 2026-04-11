@@ -15,7 +15,7 @@ const createActivity = async (data) => {
 
 const updateActivity = async (id, data) => {
   return await Activity.findByIdAndUpdate(id, data, {
-    new: true,
+    returnDocument: "after",
     runValidators: true,
   }).lean();
 };

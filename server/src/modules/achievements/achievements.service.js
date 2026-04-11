@@ -17,7 +17,7 @@ const createAchievement = async (data) => {
 
 const updateAchievement = async (id, data) => {
   return await Achievement.findByIdAndUpdate(id, data, {
-    new: true,
+    returnDocument: "after",
     runValidators: true,
   }).lean();
 };

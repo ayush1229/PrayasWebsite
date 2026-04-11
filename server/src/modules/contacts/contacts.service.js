@@ -17,7 +17,7 @@ const createContact = async (data) => {
 
 const updateContact = async (id, data) => {
   return await ContactInquiry.findByIdAndUpdate(id, data, {
-    new: true,
+    returnDocument: "after",
     runValidators: true,
   }).lean();
 };
