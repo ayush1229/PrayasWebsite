@@ -15,7 +15,7 @@ const login = async (req, res) => {
         res.cookie("token", result.token, {
             httpOnly: true,                                     // prevents JS access (XSS protection)
             secure: process.env.NODE_ENV === "production",    // true in production (HTTPS)
-            sameSite: "lax",                                  // CSRF protection
+            sameSite: process.env.NODE_ENV === "production" ? "none" : "lax", // CSRF protection
             maxAge: 24 * 60 * 60 * 1000                       // 1 day (matches your JWT expiry)
         });
 

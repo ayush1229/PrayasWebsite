@@ -7,16 +7,18 @@ const globalRoutes = require("./modules/global/global.routes");
 const newsletterRoutes = require("./modules/newsletter/newsletter.routes");
 const pagesRoutes = require("./modules/pages/pages.routes");
 const peopleRoutes = require("./modules/people/people.routes");
+const authRoutes = require("./authentication/auth.routes");
 
 const router = express.Router();
 
-router.use("/achievements", achievementsRoutes);
-router.use("/activities", activitiesRoutes);
-router.use("/donations", donationsRoutes);
-router.use("/contacts", contactsRoutes);
-router.use("/global", globalRoutes);
-router.use("/newsletter", newsletterRoutes);
+router.use("/auth", authRoutes);
+router.use("/api/achievements", achievementsRoutes);
+router.use("/api/activities", activitiesRoutes);
+router.use("/api/donations", donationsRoutes);
+router.use("/api/contacts", contactsRoutes);
+router.use("/api/global", globalRoutes);
+router.use("/api/newsletter", newsletterRoutes);
 router.use("/pages", pagesRoutes);
-router.use("/people", peopleRoutes);
+router.use("/api/people", peopleRoutes);
 
 module.exports = router;
