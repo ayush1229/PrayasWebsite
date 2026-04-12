@@ -18,7 +18,7 @@ router.use("/api/donations", donationsRoutes);
 router.use("/api/contacts", contactsRoutes);
 router.use("/api/global", globalRoutes);
 router.use("/api/newsletter", newsletterRoutes);
-router.use("/pages", pagesRoutes);
+router.use("/api/pages", pagesRoutes);
 router.use("/api/people", peopleRoutes);
 
 module.exports = router;

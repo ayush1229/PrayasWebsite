@@ -1,17 +1,43 @@
 const mongoose = require("mongoose");
 const { MongoMemoryServer } = require("mongodb-memory-server");
-const request = require("supertest");
+const supertest = require("supertest");
 const app = require("../src/app");
+const seedSuperAdmin = require("../src/config/seeding");
 
-// A valid-format ObjectId that will never exist in the test DB
 const FAKE_ID = "000000000000000000000001";
 
 let mongoServer;
+let agent;
+
+// Wrap request so existing `request(app)` calls return the authenticated agent
+const request = () => agent;
 
 beforeAll(async () => {
   mongoServer = await MongoMemoryServer.create();
   await mongoose.connect(mongoServer.getUri());
   await mongoose.syncIndexes();
+
+  await seedSuperAdmin();
+
+  // Create superadmin agent
+  const superAdminAgent = supertest.agent(app);
+  await superAdminAgent.post("/auth/login").send({
+    email: process.env.SUPERADMIN_EMAIL || "superadmin@example.com",
+    password: "password123",
+  });
+
+  // Create test admin
+  await superAdminAgent.post("/auth/create-admin").send({
+    email: "api_test_admin@example.com",
+    password: "adminpassword123"
+  });
+
+  // Login as test admin, save to global agent
+  agent = supertest.agent(app);
+  await agent.post("/auth/login").send({
+    email: "api_test_admin@example.com",
+    password: "adminpassword123"
+  });
 });
 
 afterAll(async () => {
@@ -407,13 +433,13 @@ describe("Global (SiteConfig)", () => {
           instagram: "https://instagram.com/prayas",
           linkedin: "https://linkedin.com/prayas",
         },
-        donation: { upiId: "prayas@upi", bankName: "SBI", ifsc: "SBIN0001234" },
+        donation: { upi: { upiId: "prayas@upi" } },
       });
     expect(res.status).toBe(200);
     expect(res.body.contactEmail).toBe("prayas@example.com");
     expect(res.body.donationMessage).toBe("Support us!");
     expect(res.body.socialLinks.instagram).toBe("https://instagram.com/prayas");
-    expect(res.body.donation.upiId).toBe("prayas@upi");
+    expect(res.body.donation.upi.upiId).toBe("prayas@upi");
   });
 
   test("GET /api/global → 200 returns the config after upsert", async () => {
@@ -728,5 +754,124 @@ describe("People", () => {
   test("DELETE /api/people/:id → 404 for already-deleted id", async () => {
     const res = await request(app).delete(`/api/people/${facultyId}`);
     expect(res.status).toBe(404);
+  });
+});
+
+// ─────────────────────────────────────────────────────────────
+// UNAUTHENTICATED ACCESS → all protected routes must return 401
+// Uses raw supertest (no auth cookie) to verify auth guards work
+// ─────────────────────────────────────────────────────────────
+describe("Unauthenticated access → 401 on all protected routes", () => {
+  const raw = supertest(app);
+
+  // Achievements
+  test("POST /api/achievements → 401 without auth", async () => {
+    const res = await raw.post("/api/achievements").send({ title: "X", category: "Academic", year: 2020 });
+    expect(res.status).toBe(401);
+  });
+  test("PUT /api/achievements/:id → 401 without auth", async () => {
+    const res = await raw.put(`/api/achievements/${FAKE_ID}`).send({ title: "X" });
+    expect(res.status).toBe(401);
+  });
+  test("DELETE /api/achievements/:id → 401 without auth", async () => {
+    const res = await raw.delete(`/api/achievements/${FAKE_ID}`);
+    expect(res.status).toBe(401);
+  });
+
+  // Activities
+  test("POST /api/activities → 401 without auth", async () => {
+    const res = await raw.post("/api/activities").send({ activityName: "X", year: 2020 });
+    expect(res.status).toBe(401);
+  });
+  test("PUT /api/activities/:id → 401 without auth", async () => {
+    const res = await raw.put(`/api/activities/${FAKE_ID}`).send({ activityName: "X" });
+    expect(res.status).toBe(401);
+  });
+  test("DELETE /api/activities/:id → 401 without auth", async () => {
+    const res = await raw.delete(`/api/activities/${FAKE_ID}`);
+    expect(res.status).toBe(401);
+  });
+
+  // Contacts
+  test("POST /api/contacts → 401 without auth", async () => {
+    const res = await raw.post("/api/contacts").send({ fullName: "X", email: "x@x.com", message: "hi" });
+    expect(res.status).toBe(401);
+  });
+  test("PUT /api/contacts/:id → 401 without auth", async () => {
+    const res = await raw.put(`/api/contacts/${FAKE_ID}`).send({ status: "Replied" });
+    expect(res.status).toBe(401);
+  });
+  test("DELETE /api/contacts/:id → 401 without auth", async () => {
+    const res = await raw.delete(`/api/contacts/${FAKE_ID}`);
+    expect(res.status).toBe(401);
+  });
+
+  // Donations
+  test("POST /api/donations → 401 without auth", async () => {
+    const res = await raw.post("/api/donations").send({ amount: 100, transactionId: "txn_unauth_1" });
+    expect(res.status).toBe(401);
+  });
+  test("PUT /api/donations/:id → 401 without auth", async () => {
+    const res = await raw.put(`/api/donations/${FAKE_ID}`).send({ verified: true });
+    expect(res.status).toBe(401);
+  });
+  test("DELETE /api/donations/:id → 401 without auth", async () => {
+    const res = await raw.delete(`/api/donations/${FAKE_ID}`);
+    expect(res.status).toBe(401);
+  });
+
+  // Global
+  test("PUT /api/global → 401 without auth", async () => {
+    const res = await raw.put("/api/global").send({ contactEmail: "x@x.com" });
+    expect(res.status).toBe(401);
+  });
+
+  // Pages
+  test("POST /api/pages → 401 without auth", async () => {
+    const res = await raw.post("/api/pages").send({ slug: "unauth-page", title: "X" });
+    expect(res.status).toBe(401);
+  });
+  test("PUT /api/pages/:slug → 401 without auth", async () => {
+    const res = await raw.put("/api/pages/unauth-page").send({ title: "X" });
+    expect(res.status).toBe(401);
+  });
+  test("DELETE /api/pages/:slug → 401 without auth", async () => {
+    const res = await raw.delete("/api/pages/unauth-page");
+    expect(res.status).toBe(401);
+  });
+
+  // People
+  test("POST /api/people → 401 without auth", async () => {
+    const res = await raw.post("/api/people").send({ roleType: "Faculty", name: "X" });
+    expect(res.status).toBe(401);
+  });
+  test("PUT /api/people/:id → 401 without auth", async () => {
+    const res = await raw.put(`/api/people/${FAKE_ID}`).send({ name: "X" });
+    expect(res.status).toBe(401);
+  });
+  test("DELETE /api/people/:id → 401 without auth", async () => {
+    const res = await raw.delete(`/api/people/${FAKE_ID}`);
+    expect(res.status).toBe(401);
+  });
+});
+
+// ─────────────────────────────────────────────────────────────
+// NEWSLETTER EDGE CASES
+// ─────────────────────────────────────────────────────────────
+describe("Newsletter edge cases", () => {
+  test("POST /api/newsletter/subscribe → 201 even when email is missing (upserts with undefined email)", async () => {
+    // The service uses findOneAndUpdate with upsert:true and no email validation —
+    // it succeeds with email=undefined. This test documents current behavior.
+    const res = await supertest(app).post("/api/newsletter/subscribe").send({});
+    expect(res.status).toBe(201);
+  });
+
+  test("POST /api/newsletter/unsubscribe → 200 when email is missing (matches the undefined-email doc created above)", async () => {
+    // The previous subscribe test upserted a document with email=undefined.
+    // Unsubscribing with no email finds that document → returns 200 with isActive: false.
+    // This test documents the current behavior and the gap: no input validation on email.
+    const res = await supertest(app).post("/api/newsletter/unsubscribe").send({});
+    expect(res.status).toBe(200);
+    expect(res.body.isActive).toBe(false);
   });
 });
