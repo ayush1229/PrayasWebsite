@@ -24,7 +24,15 @@ const adminOnly = (req, res, next) => {
     next();
 };
 
+const superAdminOnly = (req, res, next) => {
+    if (req.user.role !== "super_admin") {
+        return res.status(403).json({ error: "Forbidden: Super Admin only" });
+    }
+    next();
+};
+
 module.exports = {
     verifyToken,
-    adminOnly
+    adminOnly,
+    superAdminOnly
 };
