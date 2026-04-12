@@ -26,7 +26,7 @@ const achievementsSchema = new mongoose.Schema(
 
     description: String,
 
-    thumbnailUrl: String,
+    images: [String],
 
     priority: {
       type: Number,

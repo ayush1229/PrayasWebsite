@@ -9,11 +9,16 @@ const siteConfigSchema = new mongoose.Schema(
     },
 
     donation: {
-      bankName: String,
-      accountNumber: String,
-      ifsc: String,
-      branch: String,
-      upiId: String
+      provider: {
+        type: String,
+        enum: ["razorpay", "stripe", "paypal"]
+      },
+      paymentLink: String,
+      publicKey: String,
+      upi: {
+        upiId: String,        // e.g. name@upi
+        qrCodeUrl: String     // hosted image URL
+      } 
     },
 
     donationMessage: String,
