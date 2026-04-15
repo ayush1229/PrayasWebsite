@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Literacy Mission | NITH</title>
+<title>Achievements | Literacy Mission</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
   :root {
@@ -421,12 +421,85 @@
     .social-links { justify-content: center; }
   }
 </style>
+
+<style>
+/* TIMELINE STYLES */
+.timeline-container {
+  max-width: 1000px;
+  margin: 60px auto;
+  position: relative;
+  padding: 0 20px;
+}
+.timeline-container::after {
+  content: '';
+  position: absolute;
+  width: 4px;
+  background: var(--green-bg);
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  margin-left: -2px;
+  border-radius: 2px;
+}
+.timeline-item {
+  padding: 10px 40px;
+  position: relative;
+  background: inherit;
+  width: 50%;
+  margin-bottom: 40px;
+  box-sizing: border-box;
+}
+.timeline-item.left { left: 0; text-align: right; }
+.timeline-item.right { left: 50%; text-align: left; }
+.timeline-item::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: white;
+  border: 4px solid var(--green);
+  border-radius: 50%;
+  top: 30px;
+  z-index: 1;
+}
+.timeline-item.left::after { right: -12px; }
+.timeline-item.right::after { left: -12px; }
+
+.timeline-card {
+  background: white;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  transition: transform 0.3s, box-shadow 0.3s;
+  text-align: left;
+  display: inline-block;
+  width: 100%;
+}
+.timeline-card:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(0,0,0,0.1); }
+.timeline-card h3 { font-family: 'Playfair Display', serif; font-size: 24px; margin-bottom: 8px; color: var(--dark); }
+.timeline-card .year { font-size: 20px; font-weight: 800; color: var(--green); margin-bottom: 12px; }
+.timeline-card .cat { 
+  display: inline-block; padding: 4px 12px; background: var(--green-bg); color: var(--green); 
+  border-radius: 20px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
+  margin-bottom: 16px;
+}
+.timeline-card p { font-size: 15px; color: var(--gray); line-height: 1.6; }
+
+@media (max-width: 768px) {
+  .timeline-container::after { left: 31px; }
+  .timeline-item { width: 100%; padding-left: 70px; padding-right: 0; text-align: left; }
+  .timeline-item.left { left: 0; text-align: left; }
+  .timeline-item.right { left: 0; }
+  .timeline-item.left::after, .timeline-item.right::after { left: 21px; }
+}
+</style>
 </head>
 <body>
 
 <!-- NAV -->
 <nav>
   <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
     <li class="dropdown">
       <a href="#" class="dropdown-btn">Activities</a>
       <div class="dropdown-content">
@@ -464,165 +537,43 @@
   </div>
 </nav>
 
-<!-- HERO -->
-<section class="hero">
-  <h1>PARASPARAM BHAW YANTU</h1>
-  <p>Literacy Mission started with the vision of adorning the lives of kids residing in the nearby slums with a garland of education so that their childhood would remain as precious as that of other children.</p>
 
-  <div class="hero-grid">
-    <!-- card 1 (formerly stat card) -->
-    <div class="hcard" style="grid-row: span 2;">
-      <img class="ph" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="">
-    </div>
 
-    <!-- card 2 (formerly main photo 1) -->
-    <div class="hcard">
-      <img class="ph" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="">
-    </div>
-
-    <!-- card 3 (formerly donate cta) -->
-    <div class="hcard">
-      <img class="ph" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="">
-    </div>
-
-    <!-- card 4 (formerly gallery card) -->
-    <div class="hcard" style="grid-row: span 2;">
-      <img class="ph" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="">
-    </div>
-
-    <!-- card 5 (formerly spread love) -->
-    <div class="hcard">
-      <img class="ph" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="">
-    </div>
-
-    <!-- card 6 (formerly photo 2) -->
-    <div class="hcard">
-      <img class="ph" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="">
-    </div>
-
-    <!-- card 7 (formerly women card) -->
-    <div class="hcard">
-      <img class="ph" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="">
-    </div>
-  </div>
-</section>
-
-<!-- ABOUT -->
-<section class="about">
-  <div class="section-label">Get to Know Us</div>
-  <h2 class="section-title" style="font-family:'Playfair Display',serif; font-size:38px; font-weight:700; text-align:center; margin-bottom:60px;">Who We Are</h2>
-
-  <div class="about-block">
-    <div class="about-imgs">
-      <img class="img-main" src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=600&h=400&fit=crop" alt="Our Mission">
-      <img class="img-overlap" src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=300&h=300&fit=crop" alt="">
-    </div>
-    <div class="about-text">
-      <div class="tag">About us</div>
-      <h2>Our Mission</h2>
-      <p>We are committed to empowering families and children with the tools they need to thrive. Our programs reach thousands of families annually, providing education, healthcare, and community support.</p>
-      <p>The future we envision is one where every child has access to quality education and every mother receives the support she deserves.</p>
-      <a href="#" class="btn-outline">Learn More →</a>
-    </div>
-  </div>
-
-  <div class="about-block reverse">
-    <div class="about-imgs">
-      <img class="img-main" src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=600&h=400&fit=crop" alt="Our Vision">
-      <img class="img-overlap" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop" alt="" style="left:auto;right:-20px;">
-    </div>
-    <div class="about-text">
-      <div class="tag">About us</div>
-      <h2>Our Vision</h2>
-      <p>Healthy, thriving, and resilient communities — that is what we strive to build. Tomorrow's leaders are shaped today, and we are here to ensure they have everything they need.</p>
-      <p>We dream of a world where no mother faces challenges alone and no child is left behind.</p>
-      <a href="#" class="btn-outline">Learn More →</a>
-    </div>
-  </div>
-</section>
-
-<!-- QUOTE -->
-<section class="quote-section">
-  <div class="quote-label">Quick Words</div>
-  <p class="quote-text">
-    The mother is given a pride of place. She is expected to be strong and take care of her family and herself. It takes healthy mothers to raise good citizens, and good citizens to build a great nation.
-  </p>
-  <div class="quote-author">
-    Sandra Uzodimma Adewoy
-    <span>Founder, Mom of Boys</span>
-  </div>
-</section>
-
-<!-- FOUNDERS -->
-<section class="founders">
-  <div class="section-label">Meet the Team</div>
-  <div class="founders-grid">
-    <div class="founder-hero">
-      <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=600&h=700&fit=crop&crop=top" alt="CEO">
-    </div>
-    <div class="founder-info">
-      <p class="founders-label">Great Founders</p>
-      <h2>The People Behind the Mission</h2>
-      <p>With the humility that motherhood can afford, I aim to be the best version of myself every day. This is a personal and team effort that is set to support what matters most in our communities — our families.</p>
-      <p style="font-weight:600; font-size:14px; margin-bottom:4px;">— Sarah Uzodimma Adewoy, CEO</p>
-
-      <div class="founders-label" style="margin-top: 28px;">Our team</div>
-      <div class="founders-carousel" id="team-carousel">
-        <!-- Dynamically injected team members -->
-      </div>
-    </div>
-  </div>
+<section style="padding: 80px 20px 40px; text-align: center; background: var(--light);">
+  <div style="font-size: 12px; letter-spacing: 3px; text-transform: uppercase; color: var(--green); margin-bottom: 10px; font-weight: 600;">Wall of Fame</div>
+  <h1 style="font-family: 'Playfair Display', serif; font-size: 48px; color: var(--dark); margin-bottom: 20px;">
+    Our Achievements
+  </h1>
+  <p style="max-width: 600px; margin: 0 auto; color: var(--gray); line-height: 1.6;">A chronological journey of our milestones, breakthroughs, and the lives we've impacted.</p>
 </section>
 
 <!-- STATS -->
-<section class="stats-section">
-  <div class="section-label">Times We've Spent</div>
-  <p style="max-width:520px; margin:0 auto 50px; color:var(--gray); font-size:15px; text-align:center; line-height:1.7;">
-    Years of dedication have produced real, measurable impact for thousands of families across communities.
-  </p>
-  <div class="stats-grid">
-    <div class="stat-card"><div class="num">12+</div><p>Years of Impact</p></div>
-    <div class="stat-card"><div class="num">5K+</div><p>Families Supported</p></div>
-    <div class="stat-card"><div class="num">1000+</div><p>Active Donors</p></div>
-    <div class="stat-card"><div class="num">98%</div><p>Satisfaction Rate</p></div>
-  </div>
-</section>
-
-<!-- GALLERY FULL WIDTH -->
-<section class="gallery-section">
-  <div class="gallery-row">
-    <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=500&h=300&fit=crop" alt="">
-    <img src="https://images.unsplash.com/photo-1509099836639-18ba1795216d?w=500&h=300&fit=crop" alt="">
-    <img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=500&h=300&fit=crop" alt="">
-    <img src="https://images.unsplash.com/photo-1519340241574-2cec6aef0c01?w=500&h=300&fit=crop" alt="">
-  </div>
-</section>
-
-<!-- NEWSLETTER -->
-<section class="newsletter">
-  <div>
-    <h3>Get updates on success stories</h3>
-    <p>Get directly on your email. <a href="#" style="color:var(--green)">Privacy policy</a></p>
-  </div>
-  <div>
-    <p style="font-size:13px; color:var(--gray); margin-bottom:10px;">Your email</p>
-    <div class="nl-form">
-      <input type="email" id="newsletter-email" placeholder="you@example.com" />
-      <button id="newsletter-btn">Subscribe</button>
+<section class="stats-section" style="padding-top: 20px; padding-bottom: 20px;">
+  <div class="stats-grid" style="margin-bottom: 0;">
+    <div class="stat-card">
+      <div class="num">50+</div>
+      <p>JNV Selections</p>
     </div>
-    <div id="newsletter-msg" style="display:none; font-size:13px; margin-top:10px; font-weight:600;"></div>
+    <div class="stat-card">
+      <div class="num">15+</div>
+      <p>Medical Success Stories</p>
+    </div>
+    <div class="stat-card">
+      <div class="num">100+</div>
+      <p>Academic Achievements</p>
+    </div>
+    <div class="stat-card">
+      <div class="num">20+</div>
+      <p>Training Programs</p>
+    </div>
   </div>
 </section>
 
-<!-- BLOG -->
-<section class="blog">
-  <div class="section-label">Articles</div>
-  <h2 class="section-title">Look at our latest articles</h2>
-  <div class="blog-grid" id="blog-grid">
-    <!-- Blog cards loaded here -->
+<section style="background: var(--light); min-height: 50vh; padding-bottom: 80px;">
+  <div class="timeline-container" id="timeline-list">
+    <div style="text-align: center; color: var(--gray); padding-top: 50px;">Loading Timeline...</div>
   </div>
 </section>
-
 <!-- FOOTER -->
 <footer>
   <div class="footer-top">
@@ -662,214 +613,86 @@
   </div>
 </footer>
 
-<script>
-  const API_BASE_URL = 'http://localhost:5000/api';
 
-  document.addEventListener('DOMContentLoaded', () => {
+
+<script>
+  const API_BASE_URL = "http://localhost:5000/api";
+
+  document.addEventListener("DOMContentLoaded", () => {
     fetchGlobalConfig();
-    fetchPeople();
-    fetchPages();
-    setupNewsletter();
-    fetchHeroImages();
+    fetchAchievements();
   });
 
   async function fetchGlobalConfig() {
     try {
-      const res = await fetch(`${API_BASE_URL}/global`);
+      const res = await fetch(API_BASE_URL + "/global");
       if (!res.ok) return;
       const config = await res.json();
       
       if (config.contactEmail) {
-        const footEmail = document.getElementById('footer-email');
+        const footEmail = document.getElementById("footer-email");
         if (footEmail) {
           footEmail.textContent = config.contactEmail;
-          footEmail.href = `mailto:${config.contactEmail}`;
+          footEmail.href = "mailto:" + config.contactEmail;
         }
       }
 
       if (config.socialLinks) {
-        populateSocials('nav-social', config.socialLinks);
-        populateSocials('footer-social-links', config.socialLinks);
+        populateSocials("nav-social", config.socialLinks);
+        populateSocials("footer-social-links", config.socialLinks);
       }
-    } catch (err) {
-      console.error('Error fetching global config:', err);
-    }
+    } catch (err) { }
   }
 
   function populateSocials(containerId, links) {
     const container = document.getElementById(containerId);
     if (!container) return;
-    container.innerHTML = '';
-    const icons = {
-      instagram: '◉',
-      twitter: '𝕏', // could be 'x' in db
-      x: '𝕏',
-      facebook: 'f',
-      linkedin: 'in'
-    };
+    container.innerHTML = "";
+    const icons = { instagram: "◉", twitter: "𝕏", x: "𝕏", facebook: "f", linkedin: "in" };
     for (const [platform, url] of Object.entries(links)) {
       if (url) {
-        const a = document.createElement('a');
+        const a = document.createElement("a");
         a.href = url;
         a.textContent = icons[platform.toLowerCase()] || platform.charAt(0).toUpperCase();
-        a.target = '_blank';
+        a.target = "_blank";
         container.appendChild(a);
       }
     }
   }
 
-  async function fetchPeople() {
+  async function fetchAchievements() {
+    const listEl = document.getElementById("timeline-list");
     try {
-      const res = await fetch(`${API_BASE_URL}/people`);
-      if (!res.ok) return;
+      const res = await fetch(API_BASE_URL + "/achievements");
+      if (!res.ok) throw new Error("API Error");
+      const data = await res.json();
+      const list = Array.isArray(data) ? data : (data.data || []);
       
-      // Expected array of objects based on API doc
-      const resData = await res.json();
-      // Adjust if wrapped in unmentioned objects
-      const people = Array.isArray(resData) ? resData : (resData.data || []);
+      const sorted = list.sort((a,b) => b.year - a.year);
       
-      const carousel = document.getElementById('team-carousel');
-      if (!carousel) return;
-      
-      carousel.innerHTML = '';
-      
-      people.forEach(person => {
-        const card = document.createElement('div');
-        card.className = 'f-card';
-        card.innerHTML = `
-          <img src="${person.profileImageUrl || 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200&h=200&fit=crop&crop=face'}" alt="${person.name || ''}">
-          <div class="name">${person.name || ''}</div>
-          <div class="role">${person.designation || person.roleType || ''}</div>
-        `;
-        carousel.appendChild(card);
-      });
-    } catch (err) {
-      console.error('Error fetching people:', err);
-    }
-  }
-
-  async function fetchPages() {
-    try {
-      const res = await fetch(`${API_BASE_URL}/pages`);
-      if (!res.ok) return;
-      
-      const resData = await res.json();
-      const pages = Array.isArray(resData) ? resData : (resData.data || []);
-      
-      const grid = document.getElementById('blog-grid');
-      if (!grid) return;
-      
-      grid.innerHTML = '';
-      
-      const displayPages = pages.slice(0, 3);
-      displayPages.forEach(page => {
-        const card = document.createElement('div');
-        card.className = 'blog-card';
-        const randImg = 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=500&h=250&fit=crop';
-        card.innerHTML = `
-          <img src="${randImg}" alt="">
-          <div class="blog-body">
-            <div class="blog-tag">Article</div>
-            <h4>${page.title || ''}</h4>
-            <p>${page.metaDescription || 'Click to read more about this article.'}</p>
-            <a href="/pages/${page.slug}" class="read-more">Read more →</a>
-          </div>
-        `;
-        grid.appendChild(card);
-      });
-    } catch (err) {
-      console.error('Error fetching pages:', err);
-    }
-  }
-
-  function setupNewsletter() {
-    const btn = document.getElementById('newsletter-btn');
-    const input = document.getElementById('newsletter-email');
-    const msg = document.getElementById('newsletter-msg');
-    
-    if (!btn || !input || !msg) return;
-
-    btn.addEventListener('click', async () => {
-      const email = input.value.trim();
-      if (!email) {
-        msg.textContent = 'Please enter a valid email.';
-        msg.style.color = '#d9534f';
-        msg.style.display = 'block';
+      listEl.innerHTML = "";
+      if(sorted.length === 0) {
+        listEl.innerHTML = '<div style="text-align:center; padding:100px; color:#aaa;">No achievements posted yet.</div>';
         return;
       }
       
-      btn.disabled = true;
-      btn.textContent = 'Subscribing...';
-      
-      try {
-        const res = await fetch(`${API_BASE_URL}/newsletter/subscribe`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email })
-        });
+      sorted.forEach((item, index) => {
+        const side = index % 2 === 0 ? "left" : "right";
+        const div = document.createElement("div");
+        div.className = "timeline-item " + side;
         
-        if (res.ok) {
-          msg.textContent = 'Successfully subscribed!';
-          msg.style.color = 'var(--green)';
-          msg.style.display = 'block';
-          input.value = '';
-        } else {
-          let errorMsg = 'Subscription failed. Try again.';
-          try {
-            const data = await res.json();
-            if (data.message) errorMsg = data.message;
-          } catch(e){}
-          msg.textContent = errorMsg;
-          msg.style.color = '#d9534f';
-          msg.style.display = 'block';
-        }
-      } catch (err) {
-        msg.textContent = 'Network error. Please try again later.';
-        msg.style.color = '#d9534f';
-        msg.style.display = 'block';
-      } finally {
-        btn.disabled = false;
-        btn.textContent = 'Subscribe';
-        setTimeout(() => { msg.style.display = 'none'; }, 4000);
-      }
-    });
-  }
-
-  async function fetchHeroImages() {
-    try {
-      const res = await fetch(`${API_BASE_URL}/activities`);
-      if (!res.ok) return;
-      
-      const resData = await res.json();
-      const activities = Array.isArray(resData) ? resData : (resData.data || []);
-      
-      // Filter for 'Extra' activity type
-      const extraActivities = activities.filter(a => a.activityName === 'Extra');
-      if (extraActivities.length > 0) {
-        // Collect all images from the Extra activities found
-        let extraImages = [];
-        extraActivities.forEach(act => {
-          if (act.images && Array.isArray(act.images)) {
-            extraImages.push(...act.images.map(img => img.imageUrl));
-          }
-        });
-        
-        if (extraImages.length > 0) {
-          const heroGrid = document.querySelector('.hero-grid');
-          if (!heroGrid) return;
-          const imgTags = heroGrid.querySelectorAll('img');
-          imgTags.forEach((img, i) => {
-            if (extraImages[i]) {
-              img.src = extraImages[i];
-            } else {
-               // Cycle through available images if there are more img tags than images
-               img.src = extraImages[i % extraImages.length];
-            }
-          });
-        }
-      }
-    } catch (err) {
-      console.error('Error fetching hero grid activities images:', err);
+        div.innerHTML = `
+          <div class="timeline-card">
+            <div class="year">${item.year}</div>
+            <div class="cat">${item.category}</div>
+            <h3>${item.title}</h3>
+            <p>${item.description || ''}</p>
+          </div>
+        `;
+        listEl.appendChild(div);
+      });
+    } catch(err) {
+      listEl.innerHTML = '<div style="text-align:center; padding:100px; color:red;">Failed to load achievements.</div>';
     }
   }
 </script>
