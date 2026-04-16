@@ -66,7 +66,7 @@ Manages site-wide configuration like contact info, social links, and donation de
 
 #### `GET /api/global`
 - **Auth Required**: No
-- **Response** (`200 OK`): Returns the site config object (or `null` if none exists).
+- **Response** (`200 OK`): Returns the site config object. If no record exists yet, a default object is returned with the Razorpay provider and the public key from `RAZORPAY_KEY_ID` when available.
   ```json
   {
     "type": "site_config",
@@ -220,6 +220,61 @@ Manages site-wide configuration like contact info, social links, and donation de
 
 ## 5. Donations
 
+#### `GET /api/donations/config`
+- **Auth Required**: No
+- **Response** (`200 OK`): Returns the public Razorpay checkout config used by the frontend.
+  ```json
+  {
+    "success": true,
+    "data": {
+      "enabled": true,
+      "provider": "razorpay",
+      "key": "rzp_test_...",
+      "currency": "INR",
+      "name": "Prayas",
+      "description": "Support Prayas through your donation."
+    },
+    "donationMessage": "Support us!"
+  }
+  ```
+
+#### `POST /api/donations/create-order`
+- **Auth Required**: No
+- **Request Body**:
+  ```json
+  {
+    "donorName": "Jane Doe",
+    "email": "jane@example.com",
+    "contact": "9876543210",
+    "amount": 500,
+    "message": "Keep up the good work"
+  }
+  ```
+- **Response** (`201 Created`): Creates a Razorpay order and a pending donation record in MongoDB.
+
+#### `POST /api/donations/verify`
+- **Auth Required**: No
+- **Request Body**:
+  ```json
+  {
+    "razorpay_order_id": "order_...",
+    "razorpay_payment_id": "pay_...",
+    "razorpay_signature": "signature_from_checkout"
+  }
+  ```
+- **Response** (`200 OK`): Verifies the signature server-side and marks the donation as successful.
+
+#### `POST /api/donations/failure`
+- **Auth Required**: No
+- **Request Body**:
+  ```json
+  {
+    "orderId": "order_...",
+    "failureReason": "Payment declined"
+  }
+  ```
+- **Response** (`200 OK`): Marks a pending donation as failed.
+
 #### `GET /api/donations`
 - **Auth Required**: No
 - **Response** (`200 OK`): Array of donations.
@@ -237,7 +292,9 @@ Manages site-wide configuration like contact info, social links, and donation de
     "email": "jane@example.com",
     "amount": 5000,                    // Required
     "currency": "INR",                 // Default: INR
-    "transactionId": "txn_...",        // Required, Unique
+    "transactionId": "txn_...",        // Optional, Unique
+    "orderId": "order_...",            // Optional, Unique
+    "paymentId": "pay_...",            // Optional, Unique
     "gateway": "razorpay"
   }
   ```

@@ -10,6 +10,8 @@ const donationsSchema = new mongoose.Schema(
 			index: true
 		},
 
+		contact: String,
+
 		userId: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: "User"
@@ -25,10 +27,26 @@ const donationsSchema = new mongoose.Schema(
 			default: "INR"
 		},
 
+		orderId: {
+			type: String,
+			unique: true,
+			sparse: true,
+			index: true
+		},
+
+		paymentId: {
+			type: String,
+			unique: true,
+			sparse: true,
+			index: true
+		},
+
+		signature: String,
+
 		transactionId: {
 			type: String,
-			required: true,
-			unique: true
+			unique: true,
+			sparse: true
 		},
 
 		gateway: {
@@ -44,6 +62,8 @@ const donationsSchema = new mongoose.Schema(
 		},
 
 		failureReason: String,
+
+		message: String,
 
 		verified: {
 			type: Boolean,

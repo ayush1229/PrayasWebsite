@@ -15,6 +15,10 @@ const siteConfigSchema = new mongoose.Schema(
       },
       paymentLink: String,
       publicKey: String,
+      currency: String,
+      name: String,
+      description: String,
+      image: String,
       upi: {
         upiId: String,        // e.g. name@upi
         qrCodeUrl: String     // hosted image URL

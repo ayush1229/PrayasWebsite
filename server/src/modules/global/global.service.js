@@ -1,7 +1,25 @@
 const SiteConfig = require("./siteConfig.model");
 
 const getGlobalData = async () => {
-  return await SiteConfig.findOne({ type: "site_config" }).lean();
+  const config = await SiteConfig.findOne({ type: "site_config" }).lean();
+
+  if (!config) {
+    return {
+      type: "site_config",
+      donation: {
+        provider: "razorpay",
+        publicKey: process.env.RAZORPAY_KEY_ID || null,
+      },
+    };
+  }
+
+  return {
+    ...config,
+    donation: {
+      ...config.donation,
+      publicKey: config.donation?.publicKey || process.env.RAZORPAY_KEY_ID || null,
+    },
+  };
 };
 
 const updateGlobalData = async (data) => {

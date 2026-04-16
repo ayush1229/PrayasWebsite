@@ -13,6 +13,21 @@ const createDonation = async (data) => {
   return await donation.save();
 };
 
+const getDonationByOrderId = async (orderId) => {
+  return await Donation.findOne({ orderId }).lean();
+};
+
+const updateDonationByOrderId = async (orderId, data) => {
+  return await Donation.findOneAndUpdate(
+    { orderId },
+    data,
+    {
+      returnDocument: "after",
+      runValidators: true,
+    },
+  ).lean();
+};
+
 const updateDonation = async (id, data) => {
   return await Donation.findByIdAndUpdate(id, data, {
     returnDocument: "after",
@@ -28,6 +43,8 @@ module.exports = {
   getDonations,
   getDonationById,
   createDonation,
+  getDonationByOrderId,
+  updateDonationByOrderId,
   updateDonation,
   deleteDonation,
 };

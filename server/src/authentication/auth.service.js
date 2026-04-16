@@ -4,6 +4,8 @@ const User = require("./auth.model");
 const dotenv = require("dotenv");
 dotenv.config();
 
+const JWT_SECRET = process.env.JWT_SECRET || "dev-secret-change-me";
+
 const generateTokenService = (user) => {
   const payload = {
     userId: user._id,
@@ -11,7 +13,7 @@ const generateTokenService = (user) => {
     email: user.email
   };
 
-  return jwt.sign(payload, process.env.JWT_SECRET, {
+  return jwt.sign(payload, JWT_SECRET, {
     expiresIn: "1d"
   });
 };
@@ -54,7 +56,7 @@ const verifyPasswordService = async (password, hash) => {
 
 const verifyTokenService = (token) => {
   try {
-    return jwt.verify(token, process.env.JWT_SECRET);
+    return jwt.verify(token, JWT_SECRET);
   } catch (err) {
     throw new Error("Invalid or expired token");
   }

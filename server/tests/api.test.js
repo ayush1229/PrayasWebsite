@@ -1,6 +1,31 @@
+const crypto = require("crypto");
 const mongoose = require("mongoose");
 const { MongoMemoryServer } = require("mongodb-memory-server");
 const supertest = require("supertest");
+
+let mockRazorpayOrderCounter = 0;
+
+jest.mock("razorpay", () =>
+  jest.fn().mockImplementation(() => ({
+    orders: {
+      create: jest.fn(async ({ amount, currency, receipt, notes }) => {
+        mockRazorpayOrderCounter += 1;
+
+        return {
+          id: `order_test_${mockRazorpayOrderCounter}`,
+          amount,
+          currency,
+          receipt,
+          notes,
+        };
+      }),
+    },
+  })),
+);
+
+process.env.RAZORPAY_KEY_ID = "rzp_test_key";
+process.env.RAZORPAY_KEY_SECRET = "rzp_test_secret";
+
 const app = require("../src/app");
 const seedSuperAdmin = require("../src/config/seeding");
 
@@ -323,6 +348,7 @@ describe("Contacts", () => {
 // ─────────────────────────────────────────────────────────────
 describe("Donations", () => {
   let createdId;
+  let createdOrderId;
 
   test("POST /api/donations → 201 creates a donation", async () => {
     const res = await request(app).post("/api/donations").send({
@@ -376,6 +402,69 @@ describe("Donations", () => {
     expect(res.status).toBe(404);
   });
 
+  test("GET /api/donations/config → 200 returns public Razorpay config", async () => {
+    const res = await request(app).get("/api/donations/config");
+    expect(res.status).toBe(200);
+    expect(res.body.success).toBe(true);
+    expect(res.body.data.key).toBe("rzp_test_key");
+    expect(res.body.data.provider).toBe("razorpay");
+  });
+
+  test("POST /api/donations/create-order → 201 creates a pending Razorpay order", async () => {
+    const res = await supertest(app).post("/api/donations/create-order").send({
+      donorName: "Public Donor",
+      email: "public@example.com",
+      contact: "9876543210",
+      amount: 250,
+      message: "Keep it up",
+    });
+
+    expect(res.status).toBe(201);
+    expect(res.body.success).toBe(true);
+    expect(res.body.data.orderId).toBe("order_test_1");
+    expect(res.body.data.amount).toBe(25000);
+    expect(res.body.data.key).toBe("rzp_test_key");
+    createdOrderId = res.body.data.orderId;
+  });
+
+  test("POST /api/donations/verify → 200 marks a donation as verified", async () => {
+    const paymentId = "pay_test_123";
+    const signature = crypto
+      .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
+      .update(`${createdOrderId}|${paymentId}`)
+      .digest("hex");
+
+    const res = await supertest(app).post("/api/donations/verify").send({
+      razorpay_order_id: createdOrderId,
+      razorpay_payment_id: paymentId,
+      razorpay_signature: signature,
+    });
+
+    expect(res.status).toBe(200);
+    expect(res.body.success).toBe(true);
+    expect(res.body.data.orderId).toBe(createdOrderId);
+    expect(res.body.data.paymentId).toBe(paymentId);
+    expect(res.body.data.verified).toBe(true);
+    expect(res.body.data.paymentStatus).toBe("Success");
+  });
+
+  test("POST /api/donations/failure → 200 records a failed donation attempt", async () => {
+    const createRes = await supertest(app).post("/api/donations/create-order").send({
+      donorName: "Failed Donor",
+      amount: 150,
+    });
+
+    const res = await supertest(app).post("/api/donations/failure").send({
+      orderId: createRes.body.data.orderId,
+      failureReason: "Payment declined",
+    });
+
+    expect(res.status).toBe(200);
+    expect(res.body.success).toBe(true);
+    expect(res.body.data.paymentStatus).toBe("Failed");
+    expect(res.body.data.failureReason).toBe("Payment declined");
+  });
+
   test("PUT /api/donations/:id → 200 verifies a donation", async () => {
     const res = await request(app)
       .put(`/api/donations/${createdId}`)
@@ -416,11 +505,12 @@ describe("Donations", () => {
 // GLOBAL (SiteConfig)  →  response shape: direct document
 // ─────────────────────────────────────────────────────────────
 describe("Global (SiteConfig)", () => {
-  test("GET /api/global → 200 returns null when config does not exist yet", async () => {
+  test("GET /api/global → 200 returns default donation config when none exists yet", async () => {
     const res = await request(app).get("/api/global");
     expect(res.status).toBe(200);
-    // DB is empty at this point — body is null
-    expect(res.body).toBeNull();
+    expect(res.body.type).toBe("site_config");
+    expect(res.body.donation.provider).toBe("razorpay");
+    expect(res.body.donation.publicKey).toBe("rzp_test_key");
   });
 
   test("PUT /api/global → 200 upserts the site config", async () => {
