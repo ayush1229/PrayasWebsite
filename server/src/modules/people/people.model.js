@@ -12,7 +12,9 @@ const peopleSchema = new mongoose.Schema(
 
     email: String,
     phone: String,
+    secondaryPhone: String,
 
+    department: String,
     designation: String,
 
     bio: String,
