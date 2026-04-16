@@ -1,0 +1,72 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 40 20% 97%;
+    --foreground: 210 11% 15%;
+    --card: 0 0% 100%;
+    --card-foreground: 210 11% 15%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 210 11% 15%;
+    --primary: 152 69% 31%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 40 20% 94%;
+    --secondary-foreground: 210 11% 15%;
+    --muted: 40 20% 94%;
+    --muted-foreground: 210 5% 55%;
+    --accent: 152 69% 31%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 210 10% 88%;
+    --input: 210 10% 88%;
+    --ring: 152 69% 31%;
+    --radius: 0.75rem;
+
+    /* Prayas custom tokens */
+    --prayas-green: 152 69% 31%;
+    --prayas-dark: 210 11% 15%;
+    --prayas-gray: 210 5% 55%;
+    --prayas-light: 40 20% 97%;
+    --prayas-cream: 40 33% 95%;
+  }
+
+  .dark {
+    --background: 210 11% 10%;
+    --foreground: 40 20% 97%;
+    --card: 210 11% 13%;
+    --card-foreground: 40 20% 97%;
+    --popover: 210 11% 13%;
+    --popover-foreground: 40 20% 97%;
+    --primary: 152 69% 41%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 210 11% 18%;
+    --secondary-foreground: 40 20% 97%;
+    --muted: 210 11% 18%;
+    --muted-foreground: 210 5% 65%;
+    --accent: 152 69% 41%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 62% 30%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 210 11% 22%;
+    --input: 210 11% 22%;
+    --ring: 152 69% 41%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'DM Sans', sans-serif;
+  }
+  h1, h2, h3 {
+    font-family: 'Playfair Display', serif;
+  }
+}
