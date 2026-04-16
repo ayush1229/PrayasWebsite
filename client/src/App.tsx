@@ -6,8 +6,9 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import Index from "./pages/Index";
 import Achievements from "./pages/Achievements";
 import Activities from "./pages/Activities";
-import Volunteers from "./pages/Volunteers";
 import Contact from "./pages/Contact";
+import Financials from "./pages/Financials";
+import Media from "./pages/Media";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -23,8 +24,9 @@ const App = () => (
           <Route path="/achievements" element={<Achievements />} />
           <Route path="/activities" element={<Activities />} />
           <Route path="/activities/:type" element={<Activities />} />
-          <Route path="/volunteers" element={<Volunteers />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/financials" element={<Financials />} />
+          <Route path="/media" element={<Media />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

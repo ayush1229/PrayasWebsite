@@ -7,6 +7,8 @@ const globalRoutes = require("./modules/global/global.routes");
 const newsletterRoutes = require("./modules/newsletter/newsletter.routes");
 const pagesRoutes = require("./modules/pages/pages.routes");
 const peopleRoutes = require("./modules/people/people.routes");
+const financialsRoutes = require("./modules/financials/financials.routes");
+const mediaRoutes = require("./modules/media/media.routes");
 const authRoutes = require("./authentication/auth.routes");
 
 const router = express.Router();
@@ -20,5 +22,7 @@ router.use("/api/global", globalRoutes);
 router.use("/api/newsletter", newsletterRoutes);
 router.use("/api/pages", pagesRoutes);
 router.use("/api/people", peopleRoutes);
+router.use("/api/financials", financialsRoutes);
+router.use("/api/media", mediaRoutes);
 
 module.exports = router;

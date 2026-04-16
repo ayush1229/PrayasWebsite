@@ -6,7 +6,8 @@ const activityTypes = ["Spardha", "Prayas", "GyanManthan", "Extra"] as const;
 
 const moreLinks = [
   { href: "https://nith.ac.in/", label: "NIT Hamirpur", external: true },
-  { to: "/volunteers", label: "Volunteers", external: false },
+  { to: "/financials", label: "Financial Docs", external: false },
+  { to: "/media", label: "Media", external: false },
 ];
 
 /** Returns open/close handlers with a delay so the mouse can move into the panel */
@@ -156,7 +157,8 @@ const Navbar = ({ logoUrl }: { logoUrl?: string }) => {
           </div>
           <Link to="/achievements" onClick={() => setMobileOpen(false)} className="block py-2 text-sm font-medium text-muted-foreground hover:text-primary">Achievements</Link>
           <Link to="/contact" onClick={() => setMobileOpen(false)} className="block py-2 text-sm font-medium text-muted-foreground hover:text-primary">Contact Us</Link>
-          <Link to="/volunteers" onClick={() => setMobileOpen(false)} className="block py-2 text-sm font-medium text-muted-foreground hover:text-primary">Volunteers</Link>
+          <Link to="/financials" onClick={() => setMobileOpen(false)} className="block py-2 text-sm font-medium text-muted-foreground hover:text-primary">Financial Docs</Link>
+          <Link to="/media" onClick={() => setMobileOpen(false)} className="block py-2 text-sm font-medium text-muted-foreground hover:text-primary">Media</Link>
           <a href="https://nith.ac.in/" target="_blank" rel="noreferrer" className="block py-2 text-sm font-medium text-muted-foreground hover:text-primary">NIT Hamirpur</a>
         </div>
       )}

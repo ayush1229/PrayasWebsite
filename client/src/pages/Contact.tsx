@@ -9,6 +9,8 @@ interface Person {
   roleType?: string;       // 'Faculty' | 'Student'
   designation?: string;
   department?: string;
+  organization?: string;
+  year?: number;
   email?: string;
   phone?: string;
   secondaryPhone?: string;
@@ -40,7 +42,7 @@ const Contact = () => {
         setStudents(
           active
             .filter((p) => p.roleType === "Student")
-            .sort((a, b) => (a.displayOrder ?? 99) - (b.displayOrder ?? 99))
+            .sort((a, b) => (b.year || 0) - (a.year || 0) || (a.displayOrder ?? 99) - (b.displayOrder ?? 99))
         );
       })
       .catch(() => setError(true))
@@ -80,7 +82,8 @@ const Contact = () => {
               ) : (
                 <div className="flex flex-wrap gap-8 justify-center mb-20">
                   {faculty.map((f) => {
-                    const dept = f.department || f.designation || "N/A";
+                    const parts = [f.department || f.designation, f.organization].filter(Boolean);
+                    const dept = parts.length > 0 ? parts.join(", ") : "N/A";
                     return (
                       <div
                         key={f._id || f.name}

@@ -16,6 +16,13 @@ const peopleSchema = new mongoose.Schema(
 
     department: String,
     designation: String,
+    organization: String,
+
+    // Specific to Student role
+    year: {
+      type: Number,
+      enum: [1, 2, 3, 4, 5]
+    },
 
     bio: String,
 
