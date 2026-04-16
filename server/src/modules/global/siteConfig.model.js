@@ -23,6 +23,8 @@ const siteConfigSchema = new mongoose.Schema(
 
     donationMessage: String,
 
+    logoUrl: String,
+    
     contactEmail: String,
 
     socialLinks: {
