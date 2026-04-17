@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Layout from "@/components/Layout";
+import Layout, { useConfig } from "@/components/Layout";
 import { CreditCard, Landmark, User, FileText, MapPin, Code, Hash, Copy, Check, QrCode } from "lucide-react";
 import {
   Dialog,
@@ -14,7 +14,11 @@ import { useToast } from "@/hooks/use-toast";
 const Donate = () => {
   const { toast } = useToast();
   const [copied, setCopied] = useState(false);
-  const upiId = "85092936696@sbi";
+  const config = useConfig();
+
+  // Prefer dynamic data from DB, fallback to current constants
+  const upiId = config.donation?.upi?.upiId || "85092936696@sbi";
+  const qrCodeUrl = config.donation?.upi?.qrCodeUrl || "/qr-code.png";
 
   const bankDetails = [
     { label: "Branch", value: "State Bank of India, NIT Hamirpur (H.P.)", icon: MapPin },
@@ -99,7 +103,7 @@ const Donate = () => {
                     <div className="p-8 flex flex-col items-center gap-6">
                       <div className="relative group p-4 bg-white rounded-2xl border-2 border-primary/10 shadow-[0_0_30px_rgba(var(--primary),0.05)] transition-all hover:border-primary/30">
                         <img 
-                          src="/qr-code.png" 
+                          src={qrCodeUrl} 
                           alt="UPI QR Code" 
                           className="w-64 h-64 object-contain rounded-lg"
                         />

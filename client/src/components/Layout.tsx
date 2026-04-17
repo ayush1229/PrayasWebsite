@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useEffect, useState, createContext, useContext } from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { API_BASE_URL } from "@/lib/api";
@@ -11,7 +11,20 @@ export interface GlobalConfig {
   logoUrl?: string;
   contactEmail?: string;
   socialLinks?: SocialLinks;
+  donation?: {
+    upi?: {
+      upiId: string;
+      qrCodeUrl: string;
+    }
+  }
 }
+
+const ConfigContext = createContext<GlobalConfig | undefined>(undefined);
+
+export const useConfig = () => {
+  const context = useContext(ConfigContext);
+  return context || {};
+};
 
 const Layout = ({ children, globalConfig: externalConfig }: { children: ReactNode; globalConfig?: GlobalConfig }) => {
   const [config, setConfig] = useState<GlobalConfig>(externalConfig || {});
@@ -28,11 +41,13 @@ const Layout = ({ children, globalConfig: externalConfig }: { children: ReactNod
   }, [externalConfig]);
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <Navbar logoUrl={config.logoUrl} />
-      <main className="flex-1 pt-16">{children}</main>
-      <Footer globalConfig={config} />
-    </div>
+    <ConfigContext.Provider value={config}>
+      <div className="min-h-screen flex flex-col">
+        <Navbar logoUrl={config.logoUrl} />
+        <main className="flex-1 pt-16">{children}</main>
+        <Footer globalConfig={config} />
+      </div>
+    </ConfigContext.Provider>
   );
 };
 
