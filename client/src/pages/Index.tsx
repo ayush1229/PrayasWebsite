@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Layout from "@/components/Layout";
-import { API_BASE_URL, normaliseList } from "@/lib/api";
+import { API_BASE_URL, normaliseList, cloudinaryUrl } from "@/lib/api";
 
 const defaultStats = [
   { num: "120+", label: "Students" },
@@ -108,7 +108,7 @@ const Index = () => {
         <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-3 auto-rows-[180px]">
           {heroImages.map((src, i) => (
             <div key={i} className={`rounded-2xl overflow-hidden bg-muted ${!src ? "animate-pulse" : ""} ${i === 0 || i === 3 ? "row-span-2" : ""}`}>
-              {src && <img src={src} alt="" className="w-full h-full object-cover" loading="lazy" />}
+              {src && <img src={cloudinaryUrl(src, "card")} alt="" className="w-full h-full object-cover" loading="lazy" />}
             </div>
           ))}
         </div>
@@ -124,12 +124,12 @@ const Index = () => {
           <div className="flex flex-col md:flex-row items-center gap-12 mb-20">
             <div className="relative flex-shrink-0 w-full md:w-[45%]">
               {about.missionMain ? (
-                <img id="about-mission-main" src={about.missionMain} alt="Our Mission" className="rounded-2xl w-full h-[300px] md:h-[380px] object-cover shadow-lg" />
+                <img id="about-mission-main" src={cloudinaryUrl(about.missionMain, "hero")} alt="Our Mission" className="rounded-2xl w-full h-[300px] md:h-[380px] object-cover shadow-lg" />
               ) : (
                 <div className="rounded-2xl w-full h-[300px] md:h-[380px] bg-muted animate-pulse shadow-lg" />
               )}
               {about.missionSmall ? (
-                <img id="about-mission-small" src={about.missionSmall} alt="" className="absolute -bottom-6 -left-4 w-32 h-32 rounded-xl object-cover shadow-xl border-4 border-background hidden md:block" />
+                <img id="about-mission-small" src={cloudinaryUrl(about.missionSmall, "thumb")} alt="" className="absolute -bottom-6 -left-4 w-32 h-32 rounded-xl object-cover shadow-xl border-4 border-background hidden md:block" />
               ) : (
                 <div className="absolute -bottom-6 -left-4 w-32 h-32 rounded-xl bg-muted animate-pulse shadow-xl border-4 border-background hidden md:block" />
               )}
@@ -153,12 +153,12 @@ const Index = () => {
           <div className="flex flex-col md:flex-row-reverse items-center gap-12">
             <div className="relative flex-shrink-0 w-full md:w-[45%]">
               {about.visionMain ? (
-                <img id="about-vision-main" src={about.visionMain} alt="Our Vision" className="rounded-2xl w-full h-[300px] md:h-[380px] object-cover shadow-lg" />
+                <img id="about-vision-main" src={cloudinaryUrl(about.visionMain, "hero")} alt="Our Vision" className="rounded-2xl w-full h-[300px] md:h-[380px] object-cover shadow-lg" />
               ) : (
                 <div className="rounded-2xl w-full h-[300px] md:h-[380px] bg-muted animate-pulse shadow-lg" />
               )}
               {about.visionSmall ? (
-                <img id="about-vision-small" src={about.visionSmall} alt="" className="absolute -bottom-6 -right-4 w-32 h-32 rounded-xl object-cover shadow-xl border-4 border-background hidden md:block" />
+                <img id="about-vision-small" src={cloudinaryUrl(about.visionSmall, "thumb")} alt="" className="absolute -bottom-6 -right-4 w-32 h-32 rounded-xl object-cover shadow-xl border-4 border-background hidden md:block" />
               ) : (
                 <div className="absolute -bottom-6 -right-4 w-32 h-32 rounded-xl bg-muted animate-pulse shadow-xl border-4 border-background hidden md:block" />
               )}
@@ -211,7 +211,7 @@ const Index = () => {
         <div className="flex">
           {galleryImages.map((src, i) => (
             src ? (
-              <img key={i} src={src} alt="" className="flex-1 min-w-0 h-[250px] object-cover hover:scale-105 transition-transform duration-500 cursor-pointer" loading="lazy" />
+              <img key={i} src={cloudinaryUrl(src, "card")} alt="" className="flex-1 min-w-0 h-[250px] object-cover hover:scale-105 transition-transform duration-500 cursor-pointer" loading="lazy" />
             ) : (
               <div key={i} className="flex-1 min-w-0 h-[250px] bg-muted animate-pulse border-r border-background last:border-r-0" />
             )

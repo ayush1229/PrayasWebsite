@@ -1,0 +1,3 @@
+
+# Financial PDFs — stored locally on server, not in git
+server/financials/**/*.pdf

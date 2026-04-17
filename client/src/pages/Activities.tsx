@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import Layout from "@/components/Layout";
-import { API_BASE_URL, normaliseList } from "@/lib/api";
+import { API_BASE_URL, normaliseList, cloudinaryUrl } from "@/lib/api";
 
 type ActivityType = "Spardha" | "Prayas" | "GyanManthan" | "Extra";
 
@@ -129,7 +129,7 @@ const Activities = () => {
                 {item.images.map((img, idx) => (
                   <img
                     key={idx}
-                    src={img.imageUrl}
+                    src={cloudinaryUrl(img.imageUrl, "card")}
                     alt={img.altText || ""}
                     className="w-full h-56 object-cover rounded-2xl bg-secondary"
                     loading="lazy"

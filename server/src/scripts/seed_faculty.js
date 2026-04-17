@@ -1,6 +1,6 @@
 require("dotenv").config();
 const mongoose = require("mongoose");
-const Person = require("./src/modules/people/people.model");
+const Person = require("../modules/people/people.model");
 
 const facultyData = [
   {

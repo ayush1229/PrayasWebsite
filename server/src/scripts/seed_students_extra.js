@@ -1,6 +1,6 @@
 require("dotenv").config();
 const mongoose = require("mongoose");
-const Person = require("./src/modules/people/people.model");
+const Person = require("../modules/people/people.model");
 
 const extras = [
   {
@@ -18,7 +18,7 @@ const extras = [
 async function run() {
   await mongoose.connect(process.env.MONGO_URI);
   console.log("Connected.");
-  
+
   const lastStudent = await Person.findOne({ roleType: "Student" }).sort({ displayOrder: -1 });
   let nextOrder = lastStudent ? (lastStudent.displayOrder || 0) + 1 : 0;
 

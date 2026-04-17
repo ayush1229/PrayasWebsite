@@ -1,6 +1,6 @@
 require("dotenv").config();
 const mongoose = require("mongoose");
-const Media = require("./src/modules/media/media.model");
+const Media = require("../modules/media/media.model");
 
 const rawData = [
   { tag: "Spardha", urls: ["https://youtu.be/HJQYyCE7qe4?si=X8Te-OfsMIh827K4", "https://youtu.be/hKSPM3-tHOk?si=LI1yAha0lkT5wtmR"] },
@@ -28,7 +28,7 @@ rawData.forEach((group) => {
 async function run() {
   await mongoose.connect(process.env.MONGO_URI);
   console.log("Connected.");
-  
+
   const result = await Media.insertMany(mediaDocs, { ordered: false });
   console.log(`Inserted ${result.length} media records.`);
   result.forEach(m => console.log(` ✔  [${m.tag}] ${m.title}`));

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Layout from "@/components/Layout";
-import { API_BASE_URL, normaliseList } from "@/lib/api";
+import { API_BASE_URL, normaliseList, resolveUrl } from "@/lib/api";
 import { FileText, Download, ExternalLink, Receipt, HandHeart } from "lucide-react";
 
 interface FinancialDoc {
@@ -8,7 +8,7 @@ interface FinancialDoc {
   title: string;
   type: "expenditures" | "donations";
   pdfUrl: string;
-  year: number;
+  year: string; // e.g. "2024-25"
 }
 
 type FilterType = "all" | "expenditures" | "donations";
@@ -61,8 +61,8 @@ const Financials = () => {
       })
       .then((data) => {
         const list = normaliseList<FinancialDoc>(data);
-        // sort newest first (API already does this, but defensive)
-        list.sort((a, b) => b.year - a.year);
+        // sort newest first by the 4-digit year prefix
+        list.sort((a, b) => parseInt(b.year) - parseInt(a.year));
         setDocs(list);
       })
       .catch(() => setError(true))
@@ -72,15 +72,14 @@ const Financials = () => {
   const filtered =
     filter === "all" ? docs : docs.filter((d) => d.type === filter);
 
-  // Group by year for display
-  const byYear = filtered.reduce<Record<number, FinancialDoc[]>>((acc, doc) => {
+  // Group by year string for display
+  const byYear = filtered.reduce<Record<string, FinancialDoc[]>>((acc, doc) => {
     if (!acc[doc.year]) acc[doc.year] = [];
     acc[doc.year].push(doc);
     return acc;
   }, {});
   const sortedYears = Object.keys(byYear)
-    .map(Number)
-    .sort((a, b) => b - a);
+    .sort((a, b) => parseInt(b) - parseInt(a)); // sort by 4-digit prefix descending
 
   return (
     <Layout>
@@ -212,7 +211,7 @@ const Financials = () => {
                             {/* Action buttons */}
                             <div className="flex items-center gap-2 shrink-0">
                               <a
-                                href={doc.pdfUrl}
+                                href={resolveUrl(doc.pdfUrl)}
                                 target="_blank"
                                 rel="noreferrer"
                                 className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-semibold text-muted-foreground hover:text-primary hover:bg-primary/5 border border-border hover:border-primary/30 transition-all"
@@ -222,7 +221,7 @@ const Financials = () => {
                                 <span className="hidden sm:inline">View</span>
                               </a>
                               <a
-                                href={doc.pdfUrl}
+                                href={resolveUrl(doc.pdfUrl)}
                                 download
                                 className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-semibold bg-primary text-primary-foreground hover:bg-primary/90 transition-all"
                                 title="Download PDF"
