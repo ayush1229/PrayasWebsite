@@ -1,9 +1,17 @@
-export const API_BASE_URL = "http://localhost:5000/api";
+/**
+ * All backend URLs are driven by a single env variable.
+ *
+ * Development  → create client/.env with:  VITE_API_URL=http://localhost:5000/api
+ * Production   → set on your host/CI:      VITE_API_URL=https://your-api.example.com/api
+ *
+ * VITE_ prefix is required for Vite to expose the variable to the browser bundle.
+ */
+export const API_BASE_URL: string =
+  import.meta.env.VITE_API_URL ?? "http://localhost:5000/api";
 
-// The origin of the backend server — derived from API_BASE_URL.
-// Used to resolve relative paths (e.g. /files/financials/...) into full URLs.
-// On deployment, just update API_BASE_URL and this automatically follows.
-export const BACKEND_ORIGIN = new URL(API_BASE_URL).origin; // "http://localhost:5000"
+// Derived origin (e.g. "http://localhost:5000" or "https://your-api.example.com")
+// Used to resolve relative file paths like /files/financials/...
+export const BACKEND_ORIGIN: string = new URL(API_BASE_URL).origin;
 
 /**
  * Resolves a pdfUrl that may be an absolute URL or a relative path like
