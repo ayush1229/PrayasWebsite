@@ -128,7 +128,7 @@ const Navbar = ({ logoUrl }: { logoUrl?: string }) => {
           </div>
 
           <Link
-            to="/contact"
+            to="/donate"
             className="ml-2 px-5 py-2 rounded-full bg-primary text-primary-foreground text-sm font-semibold hover:bg-primary/90 transition"
           >
             Donate ↗
@@ -159,6 +159,7 @@ const Navbar = ({ logoUrl }: { logoUrl?: string }) => {
           <Link to="/contact" onClick={() => setMobileOpen(false)} className="block py-2 text-sm font-medium text-muted-foreground hover:text-primary">Contact Us</Link>
           <Link to="/financials" onClick={() => setMobileOpen(false)} className="block py-2 text-sm font-medium text-muted-foreground hover:text-primary">Financial Docs</Link>
           <Link to="/media" onClick={() => setMobileOpen(false)} className="block py-2 text-sm font-medium text-muted-foreground hover:text-primary">Media</Link>
+          <Link to="/donate" onClick={() => setMobileOpen(false)} className="block py-2 text-sm font-medium text-primary font-semibold">Donate ↗</Link>
           <a href="https://nith.ac.in/" target="_blank" rel="noreferrer" className="block py-2 text-sm font-medium text-muted-foreground hover:text-primary">NIT Hamirpur</a>
         </div>
       )}

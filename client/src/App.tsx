@@ -9,6 +9,7 @@ import Activities from "./pages/Activities";
 import Contact from "./pages/Contact";
 import Financials from "./pages/Financials";
 import Media from "./pages/Media";
+import Donate from "./pages/Donate";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -27,6 +28,7 @@ const App = () => (
           <Route path="/contact" element={<Contact />} />
           <Route path="/financials" element={<Financials />} />
           <Route path="/media" element={<Media />} />
+          <Route path="/donate" element={<Donate />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
